@@ -1,0 +1,14 @@
+I am a professional UX/UI designer. I know figma well and have recently started working with WordPress to build websites. I find it too clunky and unintuitive to use. Webflow is expensive and has quite the learning curve. Framer seems more in line with figma's interface, but it seems limited in other ways.
+
+I've tried page builders like Pagelayer, Kadence and Elementor. They are also expensive and very limited if you don't want to pay a lot.
+
+I'm also familiar with HTML, CSS, JS, Java, Mysql and PHP.
+
+I see an opportunity to build a newer 'version' of Wordpress that keeps it's pros, but streamlines the underlying structure a lot.
+
+Some fundamental elements:
+- It should be a visual code builder so designers and laymen can use it without touching code.
+- It should give developers access to code if they want to edit/add something.
+- It should work with to a design system approach - setting styles, variables and patterns. WP has this now, but it isn't intuitive to navigate.
+- The dashboard should be easier to use than WP.
+- Plugins and themes should be allowed by uploading code files, but it should be built on HTML, CSS and JS, not PHP.

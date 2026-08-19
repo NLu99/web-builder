@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --canvas-bg: #f4f4f5;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  background: var(--canvas-bg);
+  color: #18181b;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.25);
+}
