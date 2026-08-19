@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Website Builder — Wireframes v0.3</title>
+<style>
+  :root{
+    --bg:#f4f4f5;
+    --paper:#ffffff;
+    --line:#111111;
+    --line-soft:#9a9a9a;
+    --line-faint:#d4d4d8;
+    --fill-1:#e4e4e7;
+    --fill-2:#d4d4d8;
+    --fill-3:#a1a1aa;
+    --text:#18181b;
+    --text-soft:#71717a;
+    --accent-ghost:#ececee;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Helvetica Neue", Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  /* ---- Top chrome (meta, not part of product) ---- */
+  .meta-bar{
+    background:#111;
+    color:#fff;
+    padding:10px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:13px;
+    position:sticky;
+    top:0;
+    z-index:100;
+  }
+  .meta-bar .title{font-weight:600; letter-spacing:.2px;}
+  .meta-bar .sub{color:#a1a1aa; font-weight:400; margin-left:8px;}
+  .tabs{
+    display:flex;
+    gap:6px;
+  }
+  .tab-btn{
+    background:transparent;
+    border:1px solid #444;
+    color:#d4d4d8;
+    padding:6px 14px;
+    font-size:12.5px;
+    border-radius:20px;
+    cursor:pointer;
+    font-family:inherit;
+    transition:all .15s ease;
+  }
+  .tab-btn:hover{border-color:#888; color:#fff;}
+  .tab-btn.active{
+    background:#fff;
+    color:#111;
+    border-color:#fff;
+    font-weight:600;
+  }
+  .screen{display:none;}
+  .screen.active{display:block;}
+  .note{
+    max-width:1400px;
+    margin:14px auto 0;
+    padding:0 20px;
+    font-size:12.5px;
+    color:var(--text-soft);
+    line-height:1.5;
+  }
+  .note b{color:var(--text);}
+  .canvas-wrap{
+    max-width:1400px;
+    margin:14px auto 40px;
+    padding:0 20px;
+  }
+  .frame{
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:0 1px 0 rgba(0,0,0,.04);
+  }
+
+  /* ---- generic wireframe primitives ---- */
+  .box{
+    border:1.5px solid var(--line);
+    background:var(--paper);
+  }
+  .box.filled{background:var(--fill-1);}
+  .box.filled-2{background:var(--fill-2);}
+  .dashed{border-style:dashed; border-color:var(--line-soft);}
+  .label{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    color:var(--text-soft);
+    font-weight:600;
+  }
+  .placeholder-x{
+    background-image:
+      linear-gradient(45deg, transparent 48%, var(--line-faint) 49%, var(--line-faint) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--line-faint) 49%, var(--line-faint) 51%, transparent 52%);
+  }
+  .btn-wf{
+    border:1.5px solid var(--line);
+    background:#fff;
+    padding:7px 14px;
+    font-size:12px;
+    font-weight:600;
+    border-radius:3px;
+    text-align:center;
+    white-space:nowrap;
+  }
+  .btn-wf.primary{background:var(--text); color:#fff;}
+  .btn-wf.ghost{border-style:dashed; color:var(--text-soft); font-weight:500;}
+  .pill{
+    border:1.5px solid var(--line);
+    border-radius:20px;
+    padding:5px 12px;
+    font-size:11.5px;
+    font-weight:600;
+  }
+  .icon-box{
+    width:20px; height:20px;
+    border:1.5px solid var(--line);
+    border-radius:4px;
+    flex:0 0 auto;
+  }
+  .avatar{
+    width:28px;height:28px;border-radius:50%;
+    border:1.5px solid var(--line);
+    background:var(--fill-1);
+    flex:0 0 auto;
+  }
+  .lines{display:flex; flex-direction:column; gap:6px;}
+  .lines .l{height:8px; background:var(--fill-2); border-radius:2px;}
+  .lines .l.short{width:55%;}
+  .lines .l.med{width:75%;}
+  .lines .l.full{width:100%;}
+
+  /* ================= DASHBOARD ================= */
+  .dash{display:grid; grid-template-columns:220px 1fr; min-height:760px;}
+  .dash-side{
+    border-right:1.5px solid var(--line);
+    padding:18px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .dash-logo{
+    display:flex; align-items:center; gap:8px;
+    font-weight:700; font-size:15px;
+    padding-bottom:14px;
+    border-bottom:1.5px solid var(--line-faint);
+  }
+  .dash-logo .icon-box{width:24px;height:24px; border-radius:6px; background:var(--fill-1);}
+  .nav-group{display:flex; flex-direction:column; gap:4px;}
+  .nav-item{
+    display:flex; align-items:center; gap:10px;
+    padding:9px 10px;
+    border-radius:5px;
+    font-size:13px;
+    font-weight:500;
+  }
+  .nav-item .icon-box{width:16px;height:16px; border-radius:3px;}
+  .nav-item.active{background:var(--fill-1); font-weight:700;}
+  .dash-main{padding:22px 26px;}
+  .dash-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:22px;
+  }
+  .search-wf{
+    border:1.5px solid var(--line);
+    border-radius:20px;
+    padding:8px 16px;
+    font-size:12px;
+    color:var(--text-soft);
+    width:260px;
+  }
+  .dash-topbar-right{display:flex; align-items:center; gap:14px;}
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:26px;}
+  .stat-card{
+    border:1.5px solid var(--line);
+    border-radius:6px;
+    padding:14px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .stat-num{font-size:22px; font-weight:700;}
+  .sites-header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .sites-header h2{font-size:16px; margin:0;}
+  .site-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .site-card{
+    border:1.5px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .site-thumb{
+    height:120px;
+    border-bottom:1.5px solid var(--line);
+    background:var(--fill-1);
+  }
+  .site-card-body{padding:12px; display:flex; flex-direction:column; gap:8px;}
+  .site-card-foot{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 12px;
+    border-top:1px dashed var(--line-faint);
+  }
+  .new-site-card{
+    border:1.5px dashed var(--line-soft);
+    border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:8px;
+    min-height:200px;
+    color:var(--text-soft);
+  }
+  .new-site-card .plus{
+    width:34px;height:34px;border-radius:50%;
+    border:1.5px dashed var(--line-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+  }
+  [data-state="returning"] .dash-state-panel[data-when="first-time"]{display:none !important;}
+  [data-state="returning"] .dash-state-panel[data-when="returning"]{display:block !important;}
+  [data-state="first-time"] .dash-state-panel[data-when="returning"]{display:none !important;}
+  [data-state="first-time"] .dash-state-panel[data-when="first-time"]{display:block !important;}
+  .dash-empty-state{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; min-height:520px; padding:40px;
+  }
+  .dash-empty-icon{
+    width:56px; height:56px; border-radius:50%; border:1.5px dashed var(--line-soft);
+    display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--text-soft);
+    margin-bottom:16px;
+  }
+  [data-gotoswitch]{cursor:pointer;}
+
+  /* ================= BUILDER ================= */
+  .builder{display:grid; grid-template-rows:auto 1fr; min-height:800px;}
+  .builder-top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 16px;
+    border-bottom:1.5px solid var(--line);
+    gap:16px;
+  }
+  .builder-top-left, .builder-top-right{display:flex; align-items:center; gap:10px;}
+  .builder-top-center{display:flex; align-items:center; gap:8px;}
+  .breadcrumb{font-size:12.5px; display:flex; align-items:center; gap:6px; color:var(--text-soft);}
+  .breadcrumb b{color:var(--text);}
+  .device-toggle{display:flex; gap:2px; border:1.5px solid var(--line); border-radius:20px; padding:2px;}
+  .device-toggle span{
+    padding:5px 10px; font-size:11px; border-radius:16px; font-weight:600; color:var(--text-soft);
+  }
+  .device-toggle span.active{background:var(--text); color:#fff;}
+  .builder-body{display:grid; grid-template-columns:230px 1fr 260px; min-height:0;}
+  .panel{border-right:1.5px solid var(--line); display:flex; flex-direction:column;}
+  .panel:last-child{border-right:none; border-left:1.5px solid var(--line);}
+  .panel-tabs{display:flex; border-bottom:1.5px solid var(--line);}
+  .panel-tab{
+    flex:1; text-align:center; padding:10px 4px; font-size:11.5px; font-weight:700;
+    border-right:1px solid var(--line-faint);
+    color:var(--text-soft);
+  }
+  .panel-tab:last-child{border-right:none;}
+  .panel-tab.active{color:var(--text); background:var(--fill-1);}
+  .panel-body{padding:12px; display:flex; flex-direction:column; gap:10px; overflow:auto;}
+  .element-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .element-chip{
+    border:1.5px solid var(--line);
+    border-radius:5px;
+    padding:12px 6px;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    font-size:10.5px; font-weight:600; text-align:center;
+    cursor:grab;
+  }
+  .element-chip .icon-box{width:18px;height:18px;}
+  .layer-row{
+    display:flex; align-items:center; gap:6px;
+    font-size:11.5px; padding:5px 4px; border-radius:3px;
+  }
+  .layer-row.indent-1{padding-left:16px;}
+  .layer-row.indent-2{padding-left:30px;}
+  .layer-row.selected{background:var(--fill-1); font-weight:700;}
+  .layer-row .icon-box{width:12px;height:12px;}
+  .canvas-area{
+    background:#eaeaec;
+    padding:26px;
+    display:flex;
+    justify-content:center;
+    overflow:auto;
+  }
+  .page-canvas{
+    width:100%; max-width:760px;
+    background:#fff;
+    border:1.5px solid var(--line);
+    min-height:640px;
+    display:flex; flex-direction:column;
+  }
+  .pc-section{border-bottom:1.5px dashed var(--line-faint); padding:20px;}
+  .pc-header{display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1.5px solid var(--line);}
+  .pc-nav-links{display:flex; gap:16px;}
+  .pc-nav-links .l{width:38px; height:8px; background:var(--fill-2); border-radius:2px;}
+  .pc-hero{
+    padding:50px 30px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+    position:relative;
+    outline:1.5px solid #2563eb;
+    outline-offset:-1.5px;
+  }
+  .selected-tag{
+    position:absolute; top:-1px; left:-1px;
+    background:#2563eb; color:#fff; font-size:9px; font-weight:700;
+    padding:2px 6px; letter-spacing:.3px;
+  }
+  .pc-hero .lines{align-items:center;}
+  .pc-hero .l.headline{height:16px; width:60%; background:var(--fill-3);}
+  .pc-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; padding:26px;}
+  .pc-card{border:1.5px solid var(--line-faint); border-radius:4px; padding:14px; display:flex; flex-direction:column; gap:8px;}
+  .pc-card .thumb{height:70px; background:var(--fill-1); border-radius:3px;}
+  .pc-footer{padding:20px 22px; border-top:1.5px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+  .prop-row{display:flex; flex-direction:column; gap:6px;}
+  .prop-row .label{font-size:10px;}
+  .prop-input{
+    border:1.5px solid var(--line); border-radius:3px; padding:7px 8px; font-size:11.5px; color:var(--text-soft);
+  }
+  .prop-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .swatch-row{display:flex; gap:6px;}
+  .swatch{width:22px;height:22px;border-radius:4px;border:1.5px solid var(--line);}
+  .divider{border-top:1px dashed var(--line-faint); margin:4px 0;}
+  .token-tag{
+    display:inline-flex; align-items:center; gap:4px;
+    border:1px solid var(--line-soft); border-radius:12px;
+    padding:2px 8px; font-size:10px; font-weight:600; color:var(--text-soft);
+    width:fit-content;
+  }
+
+  /* ================= DESIGN SYSTEM ================= */
+  .ds{display:grid; grid-template-columns:210px 1fr; min-height:800px;}
+  .ds-side{border-right:1.5px solid var(--line); padding:18px 14px; display:flex; flex-direction:column; gap:4px;}
+  .ds-side .section-label{margin:14px 0 6px; }
+  .ds-main{padding:24px 30px;}
+  .ds-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:22px;}
+  .ds-header h2{margin:0; font-size:18px;}
+  .color-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-bottom:30px;}
+  .color-card{border:1.5px solid var(--line); border-radius:6px; overflow:hidden;}
+  .color-swatch-lg{height:64px; border-bottom:1.5px solid var(--line);}
+  .color-meta{padding:8px 10px; display:flex; flex-direction:column; gap:4px;}
+  .type-row{
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding:14px 0; border-bottom:1px dashed var(--line-faint);
+  }
+  .type-sample{font-weight:700;}
+  .type-sample.h1{font-size:30px;}
+  .type-sample.h2{font-size:24px;}
+  .type-sample.h3{font-size:19px;}
+  .type-sample.body{font-size:14px; font-weight:400;}
+  .type-sample.small{font-size:11px; font-weight:400; color:var(--text-soft);}
+  .type-meta{font-size:11px; color:var(--text-soft); font-family:monospace; text-align:right;}
+  .spacing-row{display:flex; align-items:center; gap:16px; padding:8px 0;}
+  .spacing-bar{background:var(--fill-3); height:14px; border-radius:2px;}
+  .spacing-label{width:80px; font-size:11.5px; font-family:monospace; color:var(--text-soft);}
+  .pattern-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .pattern-card{border:1.5px solid var(--line); border-radius:6px; overflow:hidden;}
+  .pattern-thumb{height:110px; background:var(--fill-1); position:relative;}
+  .pattern-thumb .mini{position:absolute; inset:14px; border:1px dashed var(--line-soft); border-radius:3px;}
+  .pattern-tag{
+    position:absolute; top:6px; left:6px; background:#fff; border:1px solid var(--line);
+    border-radius:10px; padding:2px 8px; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.3px;
+  }
+  .pattern-name{padding:10px 12px; font-size:12.5px; font-weight:700; display:flex; justify-content:space-between; align-items:center;}
+  .section-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.6px; color:var(--text-soft); font-weight:700; padding:0 10px;}
+
+  .flex{display:flex;}
+  .gap-6{gap:6px;}
+  .gap-8{gap:8px;}
+  .gap-10{gap:10px;}
+  .align-c{align-items:center;}
+  .justify-b{justify-content:space-between;}
+  .grow{flex:1;}
+
+  /* ================= BUILDER — SQUARESPACE-STYLE ================= */
+  .state-switcher{
+    display:flex; flex-wrap:wrap; gap:8px;
+    max-width:1400px; margin:14px auto 0; padding:0 20px;
+  }
+  .state-btn{
+    border:1.5px solid var(--line);
+    background:#fff;
+    padding:7px 14px;
+    font-size:11.5px;
+    font-weight:600;
+    border-radius:20px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--text-soft);
+  }
+  .state-btn.active{background:var(--text); color:#fff; border-color:var(--text);}
+  .state-btn .n{
+    display:inline-block; width:15px;height:15px; border-radius:50%;
+    background:var(--fill-2); color:var(--text); font-size:9px; font-weight:700;
+    line-height:15px; text-align:center; margin-right:5px;
+  }
+  .state-btn.active .n{background:#fff; color:var(--text);}
+
+  .sq-shell{position:relative; min-height:800px; overflow:hidden;}
+  .sq-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 18px; border-bottom:1.5px solid var(--line); background:#fff;
+    position:relative; z-index:20;
+  }
+  .sq-topbar-left{display:flex; align-items:center; gap:10px;}
+  .sq-crumb{font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px;}
+  .sq-crumb .car{color:var(--text-soft); font-weight:400;}
+  .sq-page-select{
+    border:1.5px solid var(--line); border-radius:16px; padding:5px 12px;
+    font-size:11.5px; font-weight:600; display:flex; align-items:center; gap:6px;
+  }
+  .sq-topbar-center .device-toggle{transform:scale(.92);}
+  .sq-topbar-right{display:flex; align-items:center; gap:8px;}
+  .sq-save-status{font-size:11px; color:var(--text-soft); margin-right:4px;}
+
+  .sq-body{position:relative; min-height:740px;}
+  .sq-rail{
+    position:absolute; left:0; top:0; bottom:0; width:64px;
+    border-right:1.5px solid var(--line); background:#fafafa;
+    display:flex; flex-direction:column; align-items:center; gap:20px;
+    padding-top:18px; z-index:15;
+  }
+  .sq-rail-btn{
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    cursor:pointer; color:var(--text-soft);
+  }
+  .sq-rail-icon{
+    width:34px; height:34px; border:1.5px solid var(--line); border-radius:9px;
+    display:flex; align-items:center; justify-content:center; font-size:15px; background:#fff;
+  }
+  .sq-rail-btn.active .sq-rail-icon{background:var(--text); color:#fff; border-color:var(--text);}
+  .sq-rail-btn.active{color:var(--text); font-weight:700;}
+  .sq-rail-label{font-size:9px; font-weight:600; letter-spacing:.2px;}
+
+  .sq-canvas-wrap{
+    margin-left:64px; background:#e8e8ea; min-height:740px;
+    padding:44px 24px; display:flex; justify-content:center; overflow:auto;
+  }
+  .sq-page{
+    width:100%; max-width:800px; background:#fff;
+    border:1.5px solid var(--line); position:relative; height:fit-content;
+  }
+  .sq-site-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 30px; border-bottom:1.5px solid var(--line-faint);
+  }
+  .sq-site-nav{display:flex; gap:20px;}
+  .sq-site-nav .l{width:42px; height:8px; background:var(--fill-2); border-radius:2px;}
+
+  .sq-section{position:relative; padding:0;}
+  .sq-section-inner{padding:56px 40px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .sq-section-inner.left{align-items:flex-start; text-align:left;}
+  .sq-section.demo-target{outline:2px solid #2563eb; outline-offset:-2px;}
+  .sq-float-toolbar{
+    position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+    display:none; gap:3px; background:#111; border-radius:9px; padding:5px;
+    box-shadow:0 4px 12px rgba(0,0,0,.28); z-index:10; white-space:nowrap;
+  }
+  [data-state="hover"] .sq-section.demo-target .sq-float-toolbar{display:flex;}
+  .sq-float-toolbar .fb{
+    width:27px; height:27px; border-radius:6px; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:12px; border:1px solid #333; background:#1c1c1c;
+  }
+  .sq-float-toolbar .fb.hi{background:#2563eb; border-color:#2563eb;}
+
+  .sq-seam{position:relative; height:1px; background:var(--line-faint);}
+  .sq-insert-btn{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:26px; height:26px; border-radius:50%; background:#111; color:#fff;
+    display:none; align-items:center; justify-content:center; font-size:15px; font-weight:700;
+    box-shadow:0 3px 8px rgba(0,0,0,.25); z-index:10;
+  }
+  [data-state="hover"] .sq-seam.demo-seam .sq-insert-btn{display:flex;}
+  [data-state="hover"] .sq-seam.demo-seam{background:transparent;}
+  [data-state="hover"] .sq-seam.demo-seam::before{
+    content:""; position:absolute; left:0; right:0; top:-1px; height:2px; background:#2563eb;
+  }
+
+  .sq-inline-toolbar{
+    position:absolute; top:-38px; left:50%; transform:translateX(-50%);
+    display:none; align-items:center; gap:2px; background:#111; border-radius:8px; padding:4px 6px;
+    box-shadow:0 4px 12px rgba(0,0,0,.28); z-index:10;
+  }
+  [data-state="text"] .sq-inline-toolbar{display:flex;}
+  .sq-inline-toolbar .tb{
+    width:22px; height:22px; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:11px; border-radius:4px;
+  }
+  .sq-inline-toolbar .tb.sep{width:1px; height:16px; background:#444; margin:0 2px;}
+  [data-state="text"] .sq-editable-target{outline:2px dashed #2563eb; outline-offset:4px; border-radius:2px;}
+
+  .sq-overlay-panel{
+    position:absolute; top:0; left:64px; right:0; bottom:0;
+    background:rgba(255,255,255,.99); display:none; z-index:25;
+    padding:26px 40px; overflow:auto;
+  }
+  [data-state="add"] .sq-overlay-panel.add-panel{display:block;}
+  [data-state="design"] .sq-design-slide{right:0;}
+
+  .sq-panel-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
+  .sq-panel-head h3{margin:0; font-size:16px;}
+  .sq-cat-row{display:flex; gap:8px; margin:16px 0 20px; flex-wrap:wrap;}
+  .sq-cat-pill{
+    border:1.5px solid var(--line); border-radius:16px; padding:6px 14px; font-size:11.5px; font-weight:600;
+  }
+  .sq-cat-pill.active{background:var(--text); color:#fff; border-color:var(--text);}
+  .sq-layout-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .sq-layout-card{border:1.5px solid var(--line); border-radius:6px; overflow:hidden; cursor:pointer;}
+  .sq-layout-card:hover{border-color:#2563eb;}
+  .sq-layout-thumb{height:100px; background:var(--fill-1); position:relative;}
+  .sq-layout-thumb .m1{position:absolute; top:14px; left:20%; right:20%; height:8px; background:var(--fill-3); border-radius:2px;}
+  .sq-layout-thumb .m2{position:absolute; top:30px; left:30%; right:30%; height:5px; background:var(--fill-2); border-radius:2px;}
+  .sq-layout-thumb .m3{position:absolute; bottom:16px; left:35%; right:35%; height:16px; background:var(--fill-3); border-radius:3px;}
+  .sq-layout-thumb.split{}
+  .sq-layout-thumb.split .m4{position:absolute; top:12px; bottom:12px; left:8px; width:38%; background:var(--fill-2); border-radius:2px;}
+  .sq-layout-name{padding:8px 10px; font-size:11.5px; font-weight:700; text-align:center;}
+
+  .sq-design-slide{
+    position:absolute; top:0; right:-340px; width:320px; bottom:0;
+    background:#fff; border-left:1.5px solid var(--line); z-index:30;
+    padding:20px; overflow:auto; box-shadow:-6px 0 14px rgba(0,0,0,.12);
+    transition:right .2s ease;
+  }
+  .sq-design-row{margin-bottom:20px;}
+  .sq-font-sample{
+    border:1.5px solid var(--line); border-radius:6px; padding:14px; margin-bottom:8px;
+    display:flex; align-items:center; justify-content:space-between; cursor:pointer;
+  }
+  .sq-font-sample.active{border-color:var(--text); border-width:2px;}
+  .sq-font-sample .fname{font-size:20px; font-weight:700;}
+  .sq-font-sample.serif .fname{font-family:Georgia, serif;}
+  .sq-palette-row{display:flex; gap:8px; margin-bottom:8px;}
+  .sq-palette-row .sw{flex:1; height:38px; border-radius:5px; border:1.5px solid var(--line);}
+  .sq-palette-row.active-row{outline:2px solid var(--text); outline-offset:3px; border-radius:7px;}
+  .sq-btn-style-row{display:flex; gap:10px;}
+  .sq-btn-style-card{
+    flex:1; border:1.5px solid var(--line-faint); border-radius:6px; padding:12px;
+    display:flex; flex-direction:column; align-items:center; cursor:pointer;
+  }
+  .sq-btn-style-card.active{border-color:var(--text); border-width:2px;}
+
+  /* section settings popover (quick per-section overrides, from the gear icon) */
+  .sq-sec-popover{
+    position:absolute; top:6px; right:6px; width:236px;
+    background:#fff; border:1.5px solid var(--line); border-radius:8px;
+    box-shadow:0 10px 24px rgba(0,0,0,.2); padding:14px; z-index:12;
+    display:none; text-align:left;
+  }
+  [data-state="settings"] .sq-sec-popover{display:block;}
+  [data-state="settings"] .sq-section.demo-target .sq-float-toolbar{display:flex;}
+  .sq-pop-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .sq-pop-head b{font-size:12px;}
+  .sq-pop-x{font-size:11px; color:var(--text-soft); cursor:pointer;}
+  .sq-pop-row{margin-bottom:10px;}
+  .sq-pop-row .label{margin-bottom:5px; display:block;}
+  .sq-preset-pills{display:flex; gap:4px;}
+  .sq-preset-pills span{
+    flex:1; text-align:center; border:1.5px solid var(--line); border-radius:5px;
+    padding:4px 2px; font-size:9.5px; font-weight:600; color:var(--text-soft);
+  }
+  .sq-preset-pills span.active{background:var(--text); color:#fff; border-color:var(--text);}
+  .sq-pop-link{font-size:10.5px; font-weight:700; text-decoration:underline; color:var(--text); cursor:pointer;}
+
+  /* layers panel — optional, opened from the rail, overlays the canvas rather than a permanent column */
+  .sq-layers-slide{
+    position:absolute; left:-240px; top:0; bottom:0; width:240px;
+    background:#fff; border-right:1.5px solid var(--line); z-index:28;
+    padding:16px; overflow:auto; box-shadow:6px 0 14px rgba(0,0,0,.1);
+    transition:left .2s ease;
+  }
+  [data-state="layers"] .sq-layers-slide{left:64px;}
+  .sq-layer-row{
+    display:flex; align-items:center; gap:6px;
+    font-size:11.5px; padding:6px 6px; border-radius:4px;
+  }
+  .sq-layer-row.indent{padding-left:20px;}
+  .sq-layer-row.selected{background:var(--fill-1); font-weight:700;}
+  .sq-layer-row .car{width:10px; font-size:9px; color:var(--text-soft);}
+  .sq-layer-row .dot{width:12px;height:12px;border:1.5px solid var(--line-soft); border-radius:3px; flex:0 0 auto;}
+  .sq-layer-row .eye{margin-left:auto; font-size:11px; color:var(--text-soft);}
+
+  /* Layer 2: "..." expand — advanced block properties (opacity, rotation, position, layering) */
+  .sq-props-popover{
+    position:absolute; top:6px; right:6px; width:250px; max-height:calc(100% - 12px); overflow:auto;
+    background:#fff; border:1.5px solid var(--line); border-radius:8px;
+    box-shadow:0 10px 24px rgba(0,0,0,.2); padding:14px; z-index:12;
+    display:none; text-align:left;
+  }
+  [data-state="props"] .sq-props-popover{display:block;}
+  [data-state="props"] .sq-section.demo-target .sq-float-toolbar{display:flex;}
+
+  /* Animate — click-to-apply presets, reachable from the floating toolbar's ✨ icon */
+  .sq-anim-popover{
+    position:absolute; top:6px; right:6px; width:260px;
+    background:#fff; border:1.5px solid var(--line); border-radius:8px;
+    box-shadow:0 10px 24px rgba(0,0,0,.2); padding:14px; z-index:12;
+    display:none; text-align:left;
+  }
+  [data-state="animate"] .sq-anim-popover{display:block;}
+  [data-state="animate"] .sq-section.demo-target .sq-float-toolbar{display:flex;}
+  .sq-anim-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:6px;}
+  .sq-anim-card{
+    border:1.5px solid var(--line); border-radius:6px; padding:10px 4px;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    font-size:9.5px; font-weight:600; text-align:center; cursor:pointer;
+  }
+  .sq-anim-card.active{border-color:var(--text); border-width:2px; background:var(--fill-1);}
+  .sq-anim-icon{font-size:15px;}
+
+  /* Layer 1: image contextual toolbar */
+  .sq-image-target{position:relative;}
+  [data-state="image"] .sq-image-target{outline:2px solid #2563eb; outline-offset:2px; border-radius:4px;}
+  .sq-image-toolbar{
+    position:absolute; top:-38px; left:50%; transform:translateX(-50%);
+    display:none; gap:3px; background:#111; border-radius:8px; padding:5px;
+    box-shadow:0 4px 12px rgba(0,0,0,.28); z-index:10; white-space:nowrap;
+  }
+  [data-state="image"] .sq-image-toolbar{display:flex;}
+  .sq-image-toolbar .ib{
+    padding:5px 9px; border-radius:5px; font-size:10.5px; font-weight:600; color:#fff;
+  }
+
+  /* Layer 3: Developer mode — sticky toggle, docked panel */
+  [data-state="developer"] .sq-rail-btn.dev-btn{color:var(--text); font-weight:700;}
+  [data-state="developer"] .sq-rail-btn.dev-btn .sq-rail-icon{background:var(--text); color:#fff; border-color:var(--text);}
+  .sq-dev-panel{
+    position:absolute; left:64px; right:0; bottom:0; height:0; overflow:hidden;
+    background:#111; color:#fff; z-index:26; transition:height .2s ease;
+  }
+  [data-state="developer"] .sq-dev-panel{height:230px;}
+  .sq-dev-inner{padding:16px 24px; display:flex; gap:24px; height:100%;}
+  .sq-dev-col{flex:1; display:flex; flex-direction:column; gap:8px;}
+  .sq-dev-col h4{margin:0 0 4px; font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:#a1a1aa;}
+  .sq-dev-code{
+    flex:1; background:#1c1c1c; border:1px solid #333; border-radius:5px; padding:10px;
+    font-family:monospace; font-size:11px; color:#8ec07c; line-height:1.6; overflow:auto;
+  }
+  .sq-dev-field{display:flex; align-items:center; justify-content:space-between; font-size:11.5px; padding:4px 0;}
+  .sq-dev-field input[type="text"]{
+    background:transparent; border:none; color:#a1a1aa; font-size:10px; text-align:right; width:auto;
+  }
+  .sq-dev-pill{border:1px solid #444; border-radius:14px; padding:3px 10px; font-size:10.5px; color:#d4d4d8;}
+  .sq-dev-sticky-note{font-size:10.5px; color:#a1a1aa; line-height:1.5;}
+
+  .sq-suggest-toggle{
+    display:flex; align-items:center; gap:8px; font-size:11.5px; font-weight:600; color:var(--text-soft);
+  }
+  .sq-switch{
+    width:32px; height:18px; border:1.5px solid var(--line); border-radius:10px; position:relative; background:#fff;
+  }
+  .sq-switch .knob{
+    position:absolute; top:1px; left:1px; width:12px; height:12px; border-radius:50%;
+    background:var(--text-soft); transition:left .15s;
+  }
+  .sq-add-panel-head-row{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+
+  /* ================= NEW SITE FLOW ================= */
+  .ns-shell{min-height:640px; padding:44px 40px; display:none; flex-direction:column; align-items:center;}
+  .ns-shell.on{display:flex;}
+  [data-state="choice"] .ns-shell[data-for="choice"]{display:flex;}
+  [data-state="template"] .ns-shell[data-for="template"]{display:flex;}
+  [data-state="ai"] .ns-shell[data-for="ai"]{display:flex;}
+  [data-state="name"] .ns-shell[data-for="name"]{display:flex;}
+  .ns-step-label{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-soft); margin-bottom:6px;}
+  .ns-title{font-size:20px; font-weight:700; margin:0 0 30px;}
+  .ns-card-row{display:flex; gap:20px; width:100%; max-width:820px;}
+  .ns-card{
+    flex:1; border:1.5px solid var(--line); border-radius:8px; padding:28px 18px;
+    display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center; cursor:pointer;
+  }
+  .ns-card:hover{border-color:#2563eb;}
+  .ns-card-icon{
+    width:44px; height:44px; border-radius:10px; border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--fill-1);
+  }
+  .ns-card h4{margin:0; font-size:14px;}
+  .ns-card p{margin:0; font-size:11.5px; color:var(--text-soft); line-height:1.5;}
+  .ns-tmpl-cats{display:flex; gap:8px; margin-bottom:20px;}
+  .ns-tmpl-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; width:100%; max-width:820px;}
+  .ns-tmpl-card{border:1.5px solid var(--line); border-radius:6px; overflow:hidden; cursor:pointer;}
+  .ns-tmpl-card:hover{border-color:#2563eb;}
+  .ns-tmpl-thumb{height:110px; background:var(--fill-1);}
+  .ns-tmpl-name{padding:8px 10px; font-size:11.5px; font-weight:700;}
+  .ns-ai-box{width:100%; max-width:560px; display:flex; flex-direction:column; gap:14px; align-items:center;}
+  .ns-ai-input{
+    width:100%; min-height:90px; border:1.5px solid var(--line); border-radius:8px; padding:14px;
+    font-size:12.5px; color:var(--text-soft); line-height:1.6;
+  }
+  .ns-name-box{width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px;}
+  .ns-field{display:flex; flex-direction:column; gap:5px;}
+  .ns-field input{
+    border:1.5px solid var(--line); border-radius:5px; padding:9px 12px; font-size:12.5px; color:var(--text-soft);
+  }
+  .ns-coach{
+    margin-top:24px; width:100%; max-width:560px; border:1.5px solid var(--line); border-radius:8px;
+    padding:16px; background:#fafafa; position:relative;
+  }
+  .ns-coach-bubble{
+    display:inline-flex; align-items:center; gap:6px; background:#111; color:#fff; border-radius:14px;
+    padding:5px 12px; font-size:10.5px; font-weight:600; margin:4px 6px 4px 0;
+  }
+
+  /* ================= PUBLISH FLOW ================= */
+  .pub-shell{min-height:600px; display:none; flex-direction:column; align-items:center; padding:44px 40px; text-align:center;}
+  [data-state="button"] .pub-shell[data-for="button"]{display:flex;}
+  [data-state="preview"] .pub-shell[data-for="preview"]{display:flex;}
+  [data-state="confirm"] .pub-shell[data-for="confirm"]{display:flex;}
+  [data-state="live"] .pub-shell[data-for="live"]{display:flex;}
+  [data-state="domain"] .pub-shell[data-for="domain"]{display:flex;}
+  .pub-topbar-demo{
+    display:flex; align-items:center; justify-content:space-between; width:100%; max-width:760px;
+    border:1.5px solid var(--line); border-radius:6px; padding:10px 16px; margin-bottom:30px; text-align:left;
+  }
+  .pub-preview-frame{
+    width:100%; max-width:640px; border:1.5px solid var(--line); border-radius:6px; overflow:hidden; margin-bottom:20px;
+  }
+  .pub-preview-bar{display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-bottom:1.5px solid var(--line);}
+  .pub-preview-page{padding:40px; background:var(--fill-1); min-height:220px;}
+  .pub-check-icon{
+    width:56px; height:56px; border-radius:50%; border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:26px; margin-bottom:16px;
+  }
+  .pub-url-box{
+    display:flex; align-items:center; gap:10px; border:1.5px solid var(--line); border-radius:20px;
+    padding:8px 18px; font-size:12.5px; font-weight:600; margin:14px 0 20px;
+  }
+  .pub-domain-box{width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px; text-align:left;}
+  .pub-dns-row{display:flex; justify-content:space-between; font-family:monospace; font-size:11px; padding:6px 0; border-bottom:1px dashed var(--line-faint);}
+  .pub-status-pill{border-radius:12px; padding:3px 10px; font-size:10.5px; font-weight:700; border:1.5px solid var(--line); align-self:flex-start;}
+
+  /* ================= PLUGINS & THEMES ================= */
+  .pl-shell{min-height:600px; display:none; padding:30px 36px;}
+  [data-state="list"] .pl-shell[data-for="list"]{display:block;}
+  [data-state="upload"] .pl-shell[data-for="upload"]{display:block;}
+  [data-state="perms"] .pl-shell[data-for="perms"]{display:block;}
+  .pl-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
+  .pl-list-row{
+    display:flex; align-items:center; gap:14px; padding:14px 4px; border-bottom:1px dashed var(--line-faint);
+  }
+  .pl-list-icon{width:36px; height:36px; border:1.5px solid var(--line); border-radius:6px; background:var(--fill-1); flex:0 0 auto;}
+  .pl-list-meta{flex:1;}
+  .pl-toggle{width:36px; height:20px; border:1.5px solid var(--line); border-radius:12px; position:relative;}
+  .pl-toggle.on{background:var(--text);}
+  .pl-toggle.on::after{content:""; position:absolute; top:1px; right:1px; width:14px; height:14px; border-radius:50%; background:#fff;}
+  .pl-toggle:not(.on)::after{content:""; position:absolute; top:1px; left:1px; width:14px; height:14px; border-radius:50%; background:var(--text-soft);}
+  .pl-dropzone{
+    border:1.5px dashed var(--line-soft); border-radius:8px; padding:50px; text-align:center;
+    max-width:520px; margin:10px auto 20px; color:var(--text-soft);
+  }
+  .pl-scan-row{display:flex; align-items:center; gap:10px; font-size:11.5px; padding:6px 0;}
+  .pl-scan-check{width:16px;height:16px;border:1.5px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;}
+  .pl-perm-card{border:1.5px solid var(--line); border-radius:8px; padding:16px; max-width:420px; margin:0 auto;}
+  .pl-perm-row{display:flex; align-items:flex-start; gap:8px; font-size:12px; padding:6px 0;}
+</style>
+</head>
+<body>
+
+<div class="meta-bar">
+  <div><span class="title">Website Builder</span><span class="sub">Low-fidelity wireframes · v0.3 · aligned to User Flows v1</span></div>
+  <div class="tabs">
+    <button class="tab-btn active" data-target="screen-dash">1. Dashboard</button>
+    <button class="tab-btn" data-target="screen-newsite">2. New Site</button>
+    <button class="tab-btn" data-target="screen-builder">3. Page Builder</button>
+    <button class="tab-btn" data-target="screen-ds">4. Design System</button>
+    <button class="tab-btn" data-target="screen-publish">5. Publish</button>
+    <button class="tab-btn" data-target="screen-plugins">6. Plugins &amp; Themes</button>
+  </div>
+</div>
+
+<!-- ================= SCREEN 1: DASHBOARD ================= -->
+<div class="screen active" id="screen-dash">
+  <div class="note"><b>Purpose:</b> landing screen after login. Answers "what sites do I have, and how do I get into one or start a new one" as fast as possible — the thing WordPress's multisite/dashboard makes surprisingly hard to see at a glance. Covers Flow 1 (Account Creation &amp; Onboarding) step 3 and feeds Flow 2 (New Site Creation).</div>
+
+  <div class="state-switcher" data-controls="dashShell" data-attr="state">
+    <div class="state-btn active" data-value="returning"><span class="n">1</span>Returning user</div>
+    <div class="state-btn" data-value="first-time"><span class="n">2</span>First-time user (Flow 1)</div>
+  </div>
+  <div class="canvas-wrap">
+    <div class="frame" id="dashShell" data-state="returning">
+      <div class="dash">
+        <div class="dash-side">
+          <div class="dash-logo"><div class="icon-box"></div> Builder</div>
+          <div class="nav-group">
+            <div class="section-label">Workspace</div>
+            <div class="nav-item active"><div class="icon-box"></div> All sites</div>
+            <div class="nav-item"><div class="icon-box"></div> Templates</div>
+            <div class="nav-item"><div class="icon-box"></div> Plugins &amp; Themes</div>
+            <div class="nav-item"><div class="icon-box"></div> Media library</div>
+          </div>
+          <div class="nav-group">
+            <div class="section-label">Account</div>
+            <div class="nav-item"><div class="icon-box"></div> Team</div>
+            <div class="nav-item"><div class="icon-box"></div> Billing</div>
+            <div class="nav-item"><div class="icon-box"></div> Settings</div>
+          </div>
+        </div>
+        <div class="dash-main">
+          <div class="dash-topbar">
+            <div class="search-wf">Search sites…</div>
+            <div class="dash-topbar-right">
+              <div class="pill" data-gotoswitch="newsite:choice">+ New site</div>
+              <div class="icon-box"></div>
+              <div class="avatar"></div>
+            </div>
+          </div>
+
+          <!-- Returning-user state -->
+          <div class="dash-state-panel" data-when="returning">
+            <div class="stat-row">
+              <div class="stat-card"><div class="label">Sites</div><div class="stat-num">6</div></div>
+              <div class="stat-card"><div class="label">Storage used</div><div class="stat-num">42%</div></div>
+              <div class="stat-card"><div class="label">Team members</div><div class="stat-num">3</div></div>
+              <div class="stat-card"><div class="label">Plugins installed</div><div class="stat-num">9</div></div>
+            </div>
+
+            <div class="sites-header">
+              <h2>Your sites</h2>
+              <div class="flex gap-8">
+                <div class="btn-wf ghost">Sort: Recent</div>
+                <div class="btn-wf ghost">Grid / List</div>
+              </div>
+            </div>
+
+            <div class="site-grid">
+              <div class="site-card">
+                <div class="site-thumb placeholder-x"></div>
+                <div class="site-card-body">
+                  <div style="font-weight:700; font-size:13px;">Studio Nine Portfolio</div>
+                  <div class="label">Edited 2h ago · Published</div>
+                </div>
+                <div class="site-card-foot">
+                  <div class="btn-wf">Edit</div>
+                  <div class="icon-box"></div>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-thumb placeholder-x"></div>
+                <div class="site-card-body">
+                  <div style="font-weight:700; font-size:13px;">Café Marrow</div>
+                  <div class="label">Edited yesterday · Draft</div>
+                </div>
+                <div class="site-card-foot">
+                  <div class="btn-wf">Edit</div>
+                  <div class="icon-box"></div>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-thumb placeholder-x"></div>
+                <div class="site-card-body">
+                  <div style="font-weight:700; font-size:13px;">Ledger &amp; Co.</div>
+                  <div class="label">Edited 5d ago · Published</div>
+                </div>
+                <div class="site-card-foot">
+                  <div class="btn-wf">Edit</div>
+                  <div class="icon-box"></div>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-thumb placeholder-x"></div>
+                <div class="site-card-body">
+                  <div style="font-weight:700; font-size:13px;">Nomad Fitness</div>
+                  <div class="label">Edited 1w ago · Published</div>
+                </div>
+                <div class="site-card-foot">
+                  <div class="btn-wf">Edit</div>
+                  <div class="icon-box"></div>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-thumb placeholder-x"></div>
+                <div class="site-card-body">
+                  <div style="font-weight:700; font-size:13px;">Arden Real Estate</div>
+                  <div class="label">Edited 2w ago · Draft</div>
+                </div>
+                <div class="site-card-foot">
+                  <div class="btn-wf">Edit</div>
+                  <div class="icon-box"></div>
+                </div>
+              </div>
+              <div class="new-site-card" data-gotoswitch="newsite:choice">
+                <div class="plus">+</div>
+                <div style="font-size:12.5px; font-weight:600;">Start a new site</div>
+                <div style="font-size:11px;">Blank canvas or template</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- First-time-user state — Flow 1, step 3: a single prominent card, not an empty grid -->
+          <div class="dash-state-panel" data-when="first-time" style="display:none;">
+            <div class="dash-empty-state">
+              <div class="dash-empty-icon">+</div>
+              <h2 style="margin:4px 0 6px; font-size:19px;">Welcome — let's build your first site</h2>
+              <div class="label" style="font-weight:500; text-transform:none; letter-spacing:0; font-size:13px; max-width:360px; text-align:center; margin-bottom:18px;">No dashboard maze to figure out first — one card, one decision.</div>
+              <div class="btn-wf primary" style="padding:10px 22px; font-size:13px;" data-gotoswitch="newsite:choice">Create your first site</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">
+    <b>Decided:</b> draft/published status stays a plain text label next to the edited-date (as shown) — no colored badge. A team/role indicator per site card is deferred post-MVP; see the running backlog.
+  </div>
+  <div class="note">
+    <b>Aligned to Flow 1:</b> added the first-time state (toggle 2 above) — a single prominent "Create your first site" card instead of an empty grid, per Flow 1 step 3. "+ New site" and "Start a new site" both jump to the New Site tab's starting-point step (Flow 2).
+  </div>
+  <div class="note">
+    <b>Still open:</b> should "Templates" live as its own nav item, or appear only inside the New Site flow? Also open: what exactly "Team members" and the Team nav item imply is in MVP scope, given collaboration/roles are deferred elsewhere — tracked in <code>claude/open-decisions.md</code>.
+  </div>
+</div>
+
+<!-- ================= SCREEN 2: NEW SITE (Flow 2) ================= -->
+<div class="screen" id="screen-newsite">
+  <div class="note"><b>Purpose:</b> covers Flow 2 (New Site Creation) end to end. Whichever starting point is picked, the last step always lands directly in the live editor — no dashboard detour, per the UX spec's "onboarding → first page" principle.</div>
+
+  <div class="state-switcher" data-controls="newsiteShell" data-attr="state">
+    <div class="state-btn active" data-value="choice"><span class="n">1</span>Choose a starting point</div>
+    <div class="state-btn" data-value="template"><span class="n">2</span>Template gallery</div>
+    <div class="state-btn" data-value="ai"><span class="n">3</span>Build from a prompt (AI)</div>
+    <div class="state-btn" data-value="name"><span class="n">4</span>Name site → live editor</div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="frame" id="newsiteShell" data-state="choice">
+
+      <div class="ns-shell" data-for="choice">
+        <div class="ns-step-label">Step 1 of 2</div>
+        <h2 class="ns-title">How do you want to start?</h2>
+        <div class="ns-card-row">
+          <div class="ns-card" data-gotoswitch-local="name">
+            <div class="ns-card-icon">▭</div>
+            <h4>Blank canvas</h4>
+            <p>Pick a default page structure (header + hero + footer) and start from empty sections.</p>
+          </div>
+          <div class="ns-card" data-gotoswitch-local="template">
+            <div class="ns-card-icon">▦</div>
+            <h4>Template</h4>
+            <p>Browse a gallery grouped by purpose — Portfolio, Business, Blog, Store.</p>
+          </div>
+          <div class="ns-card" data-gotoswitch-local="ai">
+            <div class="ns-card-icon">✦</div>
+            <h4>Build from a prompt</h4>
+            <p>Describe the site in plain language — AI generates a starter layout you can edit immediately.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ns-shell" data-for="template">
+        <div class="ns-step-label">Step 1 of 2 — Template</div>
+        <h2 class="ns-title">Browse by purpose</h2>
+        <div class="ns-tmpl-cats">
+          <div class="sq-cat-pill active">Portfolio</div>
+          <div class="sq-cat-pill">Business</div>
+          <div class="sq-cat-pill">Blog</div>
+          <div class="sq-cat-pill">Store</div>
+        </div>
+        <div class="ns-tmpl-grid">
+          <div class="ns-tmpl-card" data-gotoswitch-local="name"><div class="ns-tmpl-thumb"></div><div class="ns-tmpl-name">Studio</div></div>
+          <div class="ns-tmpl-card" data-gotoswitch-local="name"><div class="ns-tmpl-thumb"></div><div class="ns-tmpl-name">Gallery One</div></div>
+          <div class="ns-tmpl-card" data-gotoswitch-local="name"><div class="ns-tmpl-thumb"></div><div class="ns-tmpl-name">Folio Grid</div></div>
+          <div class="ns-tmpl-card" data-gotoswitch-local="name"><div class="ns-tmpl-thumb"></div><div class="ns-tmpl-name">Monochrome</div></div>
+        </div>
+        <div class="label" style="margin-top:16px;">Click a template to preview, then confirm to continue — preview step not pictured here.</div>
+      </div>
+
+      <div class="ns-shell" data-for="ai">
+        <div class="ns-step-label">Step 1 of 2 — AI prompt</div>
+        <h2 class="ns-title">Describe your site</h2>
+        <div class="ns-ai-box">
+          <div class="ns-ai-input">"A warm, minimal site for a neighborhood café — home page, menu, and a way for people to book a table."</div>
+          <div class="btn-wf primary" style="padding:9px 22px;" data-gotoswitch-local="name">Generate starter layout</div>
+          <div class="label" style="text-align:center;">AI generates a starter layout with real placeholder content — editable immediately, same as any other block.</div>
+        </div>
+      </div>
+
+      <div class="ns-shell" data-for="name">
+        <div class="ns-step-label">Step 2 of 2</div>
+        <h2 class="ns-title">Name your site</h2>
+        <div class="ns-name-box">
+          <div class="ns-field"><span class="label">Site name</span><input type="text" value="Café Marrow" readonly></div>
+          <div class="ns-field"><span class="label">URL</span><input type="text" value="cafemarrow.mybuilder.site" readonly></div>
+          <div class="btn-wf primary" style="align-self:flex-start; padding:9px 22px;">Create site →</div>
+        </div>
+        <div class="ns-coach">
+          <div class="label" style="margin-bottom:8px;">Lands directly in the live editor — first-run coach marks, no modal tutorial wall:</div>
+          <span class="ns-coach-bubble">👆 Click any text to edit it</span>
+          <span class="ns-coach-bubble">✋ Drag any block to move it</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Aligned to Flow 2:</b> all three starting points converge on the same "Name your site" step, then land straight in the Page Builder — never back through the Dashboard. The AI-prompt path reuses the same "generates content, editable immediately" pattern as the Smart Suggestions toggle in the builder, so it's the same mental model in two places, not two different AI features.
+  </div>
+  <div class="note">
+    <b>Open question carried from the UX spec (§7.1):</b> should the block picker's Smart Suggestions extend to this starting-point step too (AI ranks a template for you), or stay scoped to in-editor section adding as shown here? Tracked in <code>claude/open-decisions.md</code>.
+  </div>
+</div>
+
+<!-- ================= SCREEN 3: BUILDER (Squarespace-style) ================= -->
+<div class="screen" id="screen-builder">
+  <div class="note"><b>Purpose:</b> the core visual editor, rebuilt around Squarespace's editing model rather than WordPress's. The canvas <i>is</i> the page — no permanent side panels boxing it in. Editing happens in place: hover a section to get a small floating toolbar, click a text block to format it inline, hit "+" between sections to insert. A thin icon rail replaces the always-open Elements/Properties columns, and global look-and-feel lives in one "Design" panel instead of being repeated per element.</div>
+
+  <div class="note" style="margin-top:0;"><b>Flow alignment:</b> states 1–2 = Flow 3 (Adding content); 3–5 = Flow 4 (Editing, Layer 1); 6, 8 = Flow 5 (Escalating to advanced control, Layer 2 → 3); 7 = Animation (new, Layer 2 — see note below); 9 = Flow 3 continued; 10–11 = Flow 7 (Design system).</div>
+
+  <div class="state-switcher" id="builderSwitcher" data-controls="sqShell" data-attr="state">
+    <div class="state-btn active" data-value="default"><span class="n">1</span>Default page</div>
+    <div class="state-btn" data-value="hover"><span class="n">2</span>Hover a section</div>
+    <div class="state-btn" data-value="text"><span class="n">3</span>Click to edit text</div>
+    <div class="state-btn" data-value="image"><span class="n">4</span>Click an image</div>
+    <div class="state-btn" data-value="settings"><span class="n">5</span>Gear → Section settings</div>
+    <div class="state-btn" data-value="props"><span class="n">6</span>"…" → Layer 2 properties</div>
+    <div class="state-btn" data-value="animate"><span class="n">7</span>✨ → Animate</div>
+    <div class="state-btn" data-value="developer"><span class="n">8</span>Developer mode → Layer 3</div>
+    <div class="state-btn" data-value="add"><span class="n">9</span>"+" → Add block</div>
+    <div class="state-btn" data-value="design"><span class="n">10</span>Design panel (site-wide styles)</div>
+    <div class="state-btn" data-value="layers"><span class="n">11</span>Layers panel (power users)</div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="frame sq-shell" id="sqShell" data-state="default">
+
+      <div class="sq-topbar">
+        <div class="sq-topbar-left">
+          <div class="icon-box"></div>
+          <div class="sq-crumb">Café Marrow <span class="car">▾</span></div>
+          <div class="sq-page-select">Home page <span class="car">▾</span></div>
+        </div>
+        <div class="sq-topbar-center">
+          <div class="device-toggle">
+            <span class="active">Desktop</span><span>Mobile</span>
+          </div>
+        </div>
+        <div class="sq-topbar-right">
+          <span class="sq-save-status">Saved 2s ago</span>
+          <div class="btn-wf ghost">Preview</div>
+          <div class="btn-wf primary">Publish</div>
+          <div class="avatar"></div>
+        </div>
+      </div>
+
+      <div class="sq-body">
+        <!-- thin icon rail — opens overlays, never a permanent working panel -->
+        <div class="sq-rail">
+          <div class="sq-rail-btn">
+            <div class="sq-rail-icon">☰</div>
+            <div class="sq-rail-label">Pages</div>
+          </div>
+          <div class="sq-rail-btn" data-railstate="add">
+            <div class="sq-rail-icon">+</div>
+            <div class="sq-rail-label">Add</div>
+          </div>
+          <div class="sq-rail-btn" data-railstate="layers">
+            <div class="sq-rail-icon">☷</div>
+            <div class="sq-rail-label">Layers</div>
+          </div>
+          <div class="sq-rail-btn" data-railstate="design">
+            <div class="sq-rail-icon">◐</div>
+            <div class="sq-rail-label">Design</div>
+          </div>
+          <div class="sq-rail-btn dev-btn" data-railstate="developer">
+            <div class="sq-rail-icon">&lt;/&gt;</div>
+            <div class="sq-rail-label">Developer</div>
+          </div>
+          <div class="sq-rail-btn">
+            <div class="sq-rail-icon">⚙</div>
+            <div class="sq-rail-label">Settings</div>
+          </div>
+        </div>
+
+        <!-- canvas = the actual page, full-bleed, no dense chrome around it -->
+        <div class="sq-canvas-wrap">
+          <div class="sq-page">
+            <div class="sq-site-header">
+              <div class="icon-box"></div>
+              <div class="sq-site-nav">
+                <div class="l"></div><div class="l"></div><div class="l"></div><div class="l"></div>
+              </div>
+              <div class="btn-wf" style="padding:6px 12px;">Book</div>
+            </div>
+
+            <div class="sq-seam"></div>
+
+            <div class="sq-section demo-target">
+              <div class="sq-float-toolbar">
+                <div class="fb" title="Drag to reorder">⠿⠿</div>
+                <div class="fb" title="Duplicate">⧉</div>
+                <div class="fb" title="Save as Pattern (Flow 7)">✦</div>
+                <div class="fb hi" title="Section settings">⚙</div>
+                <div class="fb" title="More — Layer 2 properties">…</div>
+                <div class="fb" title="Animate">✨</div>
+                <div class="fb" title="Delete">✕</div>
+              </div>
+              <div class="sq-sec-popover">
+                <div class="sq-pop-head"><b>Section settings</b><span class="sq-pop-x">✕</span></div>
+                <div class="sq-pop-row">
+                  <span class="label">Background</span>
+                  <div class="swatch-row">
+                    <div class="swatch" style="background:var(--fill-3);"></div>
+                    <div class="token-tag">● surface/50</div>
+                  </div>
+                </div>
+                <div class="sq-pop-row">
+                  <span class="label">Padding</span>
+                  <div class="sq-preset-pills"><span>Compact</span><span class="active">Regular</span><span>Spacious</span></div>
+                  <div class="sq-pop-link" style="font-weight:500; font-size:10px; margin-top:4px;" data-gotoswitch-local="props">Enter exact px →</div>
+                </div>
+                <div class="sq-pop-row">
+                  <span class="label">Corners</span>
+                  <div class="sq-preset-pills"><span class="active">Square</span><span>Rounded</span></div>
+                </div>
+                <div class="sq-pop-row">
+                  <span class="label">Hide on</span>
+                  <div class="sq-preset-pills"><span>Desktop</span><span>Mobile</span></div>
+                </div>
+                <div class="divider"></div>
+                <div class="sq-pop-link">More style options → Design panel</div>
+              </div>
+              <div class="sq-props-popover">
+                <div class="sq-pop-head"><b>Block properties</b><span class="sq-pop-x">✕</span></div>
+                <div class="label" style="margin-bottom:5px;">Padding (px)</div>
+                <div class="prop-grid" style="margin-bottom:10px;">
+                  <div class="prop-row"><div class="label">Top</div><div class="prop-input">48</div></div>
+                  <div class="prop-row"><div class="label">Right</div><div class="prop-input">40</div></div>
+                  <div class="prop-row"><div class="label">Bottom</div><div class="prop-input">48</div></div>
+                  <div class="prop-row"><div class="label">Left</div><div class="prop-input">40</div></div>
+                </div>
+                <div class="divider"></div>
+                <div class="label" style="margin:8px 0 5px;">Position &amp; size</div>
+                <div class="prop-grid">
+                  <div class="prop-row"><div class="label">Opacity</div><div class="prop-input">100%</div></div>
+                  <div class="prop-row"><div class="label">Rotation</div><div class="prop-input">0°</div></div>
+                  <div class="prop-row"><div class="label">X</div><div class="prop-input">0</div></div>
+                  <div class="prop-row"><div class="label">Y</div><div class="prop-input">0</div></div>
+                  <div class="prop-row"><div class="label">Width</div><div class="prop-input">Fill</div></div>
+                  <div class="prop-row"><div class="label">Height</div><div class="prop-input">Auto</div></div>
+                </div>
+                <div class="divider"></div>
+                <div class="sq-pop-row" style="margin-bottom:0;">
+                  <span class="label">Layering</span>
+                  <div class="sq-preset-pills"><span>Send back</span><span>Bring front</span></div>
+                </div>
+              </div>
+              <div class="sq-anim-popover">
+                <div class="sq-pop-head"><b>Animate</b><span class="sq-pop-x">✕</span></div>
+                <div class="label" style="margin-bottom:8px;">Click a preset to apply — no keyframes to build</div>
+                <div class="sq-anim-grid">
+                  <div class="sq-anim-card active"><div class="sq-anim-icon">⬆</div>Fade in up</div>
+                  <div class="sq-anim-card"><div class="sq-anim-icon">◌</div>Fade in</div>
+                  <div class="sq-anim-card"><div class="sq-anim-icon">⬅</div>Slide in left</div>
+                  <div class="sq-anim-card"><div class="sq-anim-icon">➡</div>Slide in right</div>
+                  <div class="sq-anim-card"><div class="sq-anim-icon">⤢</div>Zoom in</div>
+                  <div class="sq-anim-card"><div class="sq-anim-icon">–</div>None</div>
+                </div>
+                <div class="divider"></div>
+                <div class="sq-pop-row">
+                  <span class="label">Starts when</span>
+                  <div class="sq-preset-pills"><span>Page loads</span><span class="active">Scrolled into view</span></div>
+                </div>
+                <div class="sq-pop-row" style="margin-bottom:0;">
+                  <span class="label">Speed</span>
+                  <div class="sq-preset-pills"><span>Slow</span><span class="active">Normal</span><span>Fast</span></div>
+                </div>
+              </div>
+              <div class="sq-section-inner">
+                <div class="lines" style="align-items:center; position:relative;">
+                  <div class="l headline sq-editable-target" style="padding:2px 0;"></div>
+                </div>
+                <div class="sq-inline-toolbar">
+                  <div class="tb" style="font-weight:700;">B</div>
+                  <div class="tb" style="font-style:italic;">I</div>
+                  <div class="tb sep"></div>
+                  <div class="tb">🔗</div>
+                  <div class="tb">Aa</div>
+                  <div class="tb sep"></div>
+                  <div class="tb">H1</div>
+                </div>
+                <div class="lines" style="align-items:center;">
+                  <div class="l med"></div>
+                  <div class="l short"></div>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:6px;">
+                  <div class="btn-wf primary">Book a table</div>
+                  <div class="btn-wf ghost">View menu</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sq-seam demo-seam">
+              <div class="sq-insert-btn">+</div>
+            </div>
+
+            <div class="sq-section">
+              <div class="sq-section-inner" style="flex-direction:row; align-items:stretch; gap:18px; text-align:left; padding:44px 40px;">
+                <div class="sq-image-target" style="flex:1; background:var(--fill-1); border-radius:4px; min-height:130px;">
+                  <div class="sq-image-toolbar">
+                    <div class="ib">Replace</div>
+                    <div class="ib">Crop</div>
+                    <div class="ib">Alt text</div>
+                  </div>
+                </div>
+                <div style="flex:1; background:var(--fill-1); border-radius:4px; min-height:130px;"></div>
+                <div style="flex:1; background:var(--fill-1); border-radius:4px; min-height:130px;"></div>
+              </div>
+            </div>
+
+            <div class="sq-seam"></div>
+
+            <div class="sq-section">
+              <div class="sq-section-inner left" style="padding:44px 40px;">
+                <div class="lines"><div class="l full"></div><div class="l med"></div><div class="l short"></div></div>
+              </div>
+            </div>
+
+            <div class="sq-seam"></div>
+
+            <div class="sq-section" style="border-top:1.5px solid var(--line);">
+              <div class="sq-section-inner" style="flex-direction:row; justify-content:space-between; padding:24px 40px;">
+                <div class="lines" style="width:35%;"><div class="l short"></div></div>
+                <div class="flex gap-8"><div class="icon-box"></div><div class="icon-box"></div><div class="icon-box"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- overlay: Add Section (opens full-bleed over canvas, not a cramped sidebar) -->
+        <div class="sq-overlay-panel add-panel">
+          <div class="sq-panel-head">
+            <h3>Add a block</h3>
+            <div class="sq-add-panel-head-row">
+              <div class="sq-suggest-toggle">
+                <div class="sq-switch"><div class="knob"></div></div>
+                ✨ Smart suggestions (beta) — off
+              </div>
+              <div class="btn-wf ghost">Close ✕</div>
+            </div>
+          </div>
+          <div class="note" style="margin:6px 0 0; padding:0; max-width:520px;">Smart suggestions use AI to rank layouts for this page — off by default since it costs more at scale than the flat category browser below, which is free and instant. Worth reconsidering as a paid-tier or usage-capped feature once the MVP has real usage data.</div>
+          <div class="search-wf" style="width:100%; max-width:340px; margin:14px 0 6px;">Search blocks…</div>
+          <div class="sq-cat-row">
+            <div class="sq-cat-pill active">Featured</div>
+            <div class="sq-cat-pill">Text</div>
+            <div class="sq-cat-pill">Image</div>
+            <div class="sq-cat-pill">Gallery</div>
+            <div class="sq-cat-pill">Form</div>
+            <div class="sq-cat-pill">Button</div>
+            <div class="sq-cat-pill">Embed</div>
+            <div class="sq-cat-pill">My Patterns</div>
+          </div>
+          <div class="sq-layout-grid">
+            <div class="sq-layout-card"><div class="sq-layout-thumb"><div class="m1"></div><div class="m2"></div><div class="m3"></div></div><div class="sq-layout-name">Hero — centered</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb split"><div class="m4"></div><div class="m1" style="left:55%; right:8%;"></div><div class="m2" style="left:55%; right:15%;"></div></div><div class="sq-layout-name">Hero — image left</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb"><div class="m1"></div><div class="m3" style="bottom:auto; top:40px; width:60%; left:20%; right:20%;"></div></div><div class="sq-layout-name">Text + button</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb"><div class="m1" style="top:14px;"></div></div><div class="sq-layout-name">Gallery grid</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb"><div class="m1"></div><div class="m2"></div></div><div class="sq-layout-name">Testimonial</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb"><div class="m1"></div><div class="m2"></div><div class="m3"></div></div><div class="sq-layout-name">Newsletter signup</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb split"><div class="m4"></div></div><div class="sq-layout-name">Contact form</div></div>
+            <div class="sq-layout-card"><div class="sq-layout-thumb"><div class="m1"></div></div><div class="sq-layout-name">Footer</div></div>
+          </div>
+        </div>
+
+        <!-- slide-in: Layers (opt-in, power-user only — overlays the canvas like Add/Design, never a permanent column) -->
+        <div class="sq-layers-slide">
+          <div class="sq-panel-head" style="margin-bottom:10px;"><h3 style="font-size:14px;">Layers</h3><div class="btn-wf ghost" style="padding:3px 9px;">✕</div></div>
+          <div class="sq-layer-row"><span class="car">▾</span><div class="dot"></div>Site header</div>
+          <div class="sq-layer-row selected"><span class="car">▾</span><div class="dot"></div>Hero section<span class="eye">◉</span></div>
+          <div class="sq-layer-row indent"><span class="car"> </span><div class="dot"></div>Headline text</div>
+          <div class="sq-layer-row indent"><span class="car"> </span><div class="dot"></div>Sub text</div>
+          <div class="sq-layer-row indent"><span class="car"> </span><div class="dot"></div>Button group</div>
+          <div class="sq-layer-row"><span class="car">▾</span><div class="dot"></div>Feature cards ×3</div>
+          <div class="sq-layer-row"><span class="car">▾</span><div class="dot"></div>Text block</div>
+          <div class="sq-layer-row"><span class="car">▸</span><div class="dot"></div>Footer<span class="eye">◎</span></div>
+          <div class="divider"></div>
+          <div class="label" style="line-height:1.5;">Mirrors section order on the canvas · drag to reorder · ◎ = hidden on this breakpoint</div>
+        </div>
+
+        <!-- slide-over: Design (site-wide styles — fonts, colors, spacing in one place) -->
+        <div class="sq-design-slide">
+          <div class="sq-panel-head"><h3 style="font-size:15px;">Site design</h3><div class="btn-wf ghost" style="padding:4px 10px;">✕</div></div>
+          <div class="label" style="margin:14px 0 8px;">Font pairing</div>
+          <div class="sq-design-row">
+            <div class="sq-font-sample active"><div class="fname">Aa</div><div class="label">Inter · Modern</div></div>
+            <div class="sq-font-sample serif"><div class="fname">Aa</div><div class="label">Georgia · Editorial</div></div>
+            <div class="sq-font-sample"><div class="fname">Aa</div><div class="label">Space Grotesk · Bold</div></div>
+          </div>
+          <div class="label" style="margin:6px 0 8px;">Color palette</div>
+          <div class="sq-design-row">
+            <div class="sq-palette-row active-row"><div class="sw" style="background:#18181b;"></div><div class="sw" style="background:#71717a;"></div><div class="sw" style="background:#d4d4d8;"></div><div class="sw" style="background:#fafafa; border:1.5px solid #ddd;"></div></div>
+            <div class="sq-palette-row"><div class="sw" style="background:#1e293b;"></div><div class="sw" style="background:#64748b;"></div><div class="sw" style="background:#cbd5e1;"></div><div class="sw" style="background:#f8fafc; border:1.5px solid #ddd;"></div></div>
+            <div class="sq-palette-row"><div class="sw" style="background:#292524;"></div><div class="sw" style="background:#a8a29e;"></div><div class="sw" style="background:#e7e5e4;"></div><div class="sw" style="background:#fafaf9; border:1.5px solid #ddd;"></div></div>
+          </div>
+          <div class="label" style="margin:6px 0 8px;">Button styles</div>
+          <div class="sq-design-row">
+            <div class="sq-btn-style-row">
+              <div class="sq-btn-style-card active">
+                <div class="label" style="margin-bottom:8px;">Primary</div>
+                <div class="btn-wf primary" style="pointer-events:none;">Book a table</div>
+              </div>
+              <div class="sq-btn-style-card">
+                <div class="label" style="margin-bottom:8px;">Secondary</div>
+                <div class="btn-wf ghost" style="pointer-events:none;">View menu</div>
+              </div>
+            </div>
+            <div class="prop-grid" style="margin-top:10px;">
+              <div class="prop-row"><div class="label">Fill</div><div class="prop-input">● text/primary</div></div>
+              <div class="prop-row"><div class="label">Text color</div><div class="prop-input">● surface/50</div></div>
+              <div class="prop-row"><div class="label">Corner radius</div><div class="prop-input">Square · Rounded · Pill</div></div>
+              <div class="prop-row"><div class="label">Size</div><div class="prop-input">Small · Regular · Large</div></div>
+            </div>
+            <div class="label" style="margin-top:8px; line-height:1.5;">Editing here restyles every button on the site — same one-place-to-decide pattern as colors and type. Per-button overrides still live in that button's own Layer 2 properties.</div>
+          </div>
+          <div class="label" style="margin:14px 0 8px;">Spacing &amp; shape</div>
+          <div class="sq-design-row">
+            <div class="prop-grid">
+              <div class="prop-row"><div class="label">Section spacing</div><div class="prop-input">Cozy · Regular · Airy</div></div>
+              <div class="prop-row"><div class="label">Corner style</div><div class="prop-input">Square · Rounded</div></div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="btn-wf ghost" style="text-align:center;">&lt;/&gt; Custom CSS (advanced)</div>
+        </div>
+
+        <!-- Layer 3: Developer mode — docked panel, only reachable via the sticky rail toggle -->
+        <div class="sq-dev-panel">
+          <div class="sq-dev-inner">
+            <div class="sq-dev-col" style="flex:0 0 220px;">
+              <h4>Developer mode</h4>
+              <div class="sq-dev-sticky-note">On for this account until you turn it off — not per-page. Unlocks the controls below; nothing here is required to publish.</div>
+              <div class="sq-dev-field"><span>Absolute positioning</span><span class="sq-dev-pill">Off</span></div>
+              <div class="sq-dev-field"><span>Custom breakpoints</span><span class="sq-dev-pill">+ Add</span></div>
+            </div>
+            <div class="sq-dev-col">
+              <h4>Custom CSS — this block</h4>
+              <div class="sq-dev-code">.hero {&#10;&nbsp;&nbsp;background: var(--surface-50);&#10;&nbsp;&nbsp;padding: 64px 40px;&#10;}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>What changed vs. the first pass:</b> removed the permanent left "Elements" column and right "Properties" column — Squarespace never boxes the canvas in with dense panels. Adding content happens contextually (hover seam → "+" → visual gallery of section layouts) instead of dragging generic blocks from a palette. Editing a section's look happens via a small floating toolbar anchored to that section, and text is edited in place with a lightweight formatting pill — not a sidebar full of input fields. Global look-and-feel (fonts, color palette, spacing/shape) is consolidated into one "Design" panel reached from the icon rail, so style decisions happen in one predictable place instead of being repeated on every element. The code escape-hatch still exists (rail + advanced CSS in the Design panel) but is deliberately tucked away rather than front-and-center.
+  </div>
+  <div class="note">
+    <b>Decided this round:</b> quick per-section overrides (background, padding, corners, per-breakpoint visibility) now live in a small popover off the gear icon — state 3 above — so the common 80% case never requires leaving the section you're looking at; anything deeper links out to the Design panel, so there's one clear "escalation path" rather than two competing places to set the same thing. A Layers panel is included (state 7) — see reasoning below. "Smart suggestions" in the Add-section panel is sketched as an off-by-default toggle rather than the default browsing mode — see reasoning below.
+  </div>
+  <div class="note">
+    <b>Why Layers works this way:</b> it's opened from the rail exactly like Add and Design — an on-demand overlay that slides in over the canvas and disappears when you're done, never a permanent third column. That's the difference that keeps it from reintroducing WordPress-style clutter: it's there when a power user needs to jump to something the hover/click method can't easily reach (an element hidden behind another, a deeply nested block, reordering three sections at once), but it's invisible to everyone else by default and doesn't compete with the canvas for space. Rows mirror the actual section order top-to-bottom, so it also doubles as a quick page outline.
+  </div>
+  <div class="note">
+    <b>On AI-suggested layouts and cost:</b> yes — this has real, ongoing cost implications, unlike the rest of the UI which is basically free to run. Every "smart suggestion" is a live model call (roughly: page context in, ranked layout list out) that costs money per use and scales with usage, not a one-time build cost. It's also different in kind from picking off a static category grid, which costs nothing to run no matter how many users click it. The wireframe reflects that: smart suggestions are sketched as an explicit, off-by-default toggle, so the flat category browser (state 5) stays the default, free, and instant path, and AI ranking is something a user opts into. Worth deferring a final call on pricing/limits until there's real usage data — options range from a small free quota (e.g. a few suggestions/month) to gating it behind a paid tier, to caching/pre-ranking common page types so it's cheaper to serve at scale.
+  </div>
+  <div class="note">
+    <b>New — Animate (state 7):</b> a ✨ icon added to the floating toolbar opens a click-to-apply preset grid (Fade in up, Fade in, Slide in left/right, Zoom in, None) — no keyframe editor, no timeline, matching the "click text to edit" directness of everything else in Layer 1. Two secondary controls (when it starts, how fast) cover the realistic range of what a non-technical user wants without turning it into a motion-design tool. This sits at the Layer 2 tier conceptually — additive polish, never required to publish a page — so it's reachable from the same floating toolbar as Block properties, not buried deeper.
+  </div>
+</div>
+
+<!-- ================= SCREEN 4: DESIGN SYSTEM ================= -->
+<div class="screen" id="screen-ds">
+  <div class="note"><b>Purpose:</b> the "streamlined design-system approach" the concept calls for — one place to manage colors, type, spacing and reusable patterns as variables/tokens, instead of WordPress's scattered theme.json / Customizer / block-style panels.</div>
+  <div class="canvas-wrap">
+    <div class="frame">
+      <div class="ds">
+        <div class="ds-side">
+          <div class="dash-logo"><div class="icon-box"></div> Café Marrow</div>
+          <div class="section-label">Design system</div>
+          <div class="nav-item active"><div class="icon-box"></div> Colors</div>
+          <div class="nav-item"><div class="icon-box"></div> Typography</div>
+          <div class="nav-item"><div class="icon-box"></div> Spacing &amp; grid</div>
+          <div class="nav-item"><div class="icon-box"></div> Patterns</div>
+          <div class="nav-item"><div class="icon-box"></div> Variables (all)</div>
+          <div class="section-label">Site</div>
+          <div class="nav-item"><div class="icon-box"></div> Pages</div>
+          <div class="nav-item"><div class="icon-box"></div> Back to builder</div>
+        </div>
+        <div class="ds-main">
+          <div class="ds-header">
+            <h2>Colors</h2>
+            <div class="flex gap-8">
+              <div class="btn-wf ghost">Import from theme</div>
+              <div class="btn-wf primary">+ Add color token</div>
+            </div>
+          </div>
+
+          <div class="label" style="margin-bottom:10px;">Brand</div>
+          <div class="color-grid">
+            <div class="color-card"><div class="color-swatch-lg" style="background:#3f3f46;"></div><div class="color-meta"><div style="font-size:11.5px;font-weight:700;">primary/600</div><div class="label">#3F3F46</div></div></div>
+            <div class="color-card"><div class="color-swatch-lg" style="background:#71717a;"></div><div class="color-meta"><div style="font-size:11.5px;font-weight:700;">primary/400</div><div class="label">#71717A</div></div></div>
+            <div class="color-card"><div class="color-swatch-lg" style="background:#d4d4d8;"></div><div class="color-meta"><div style="font-size:11.5px;font-weight:700;">primary/100</div><div class="label">#D4D4D8</div></div></div>
+            <div class="color-card"><div class="color-swatch-lg" style="background:#fafafa; border-bottom-color:#111;"></div><div class="color-meta"><div style="font-size:11.5px;font-weight:700;">surface/50</div><div class="label">#FAFAFA</div></div></div>
+            <div class="color-card"><div class="color-swatch-lg" style="background:#18181b;"></div><div class="color-meta"><div style="font-size:11.5px;font-weight:700;">text/primary</div><div class="label">#18181B</div></div></div>
+            <div class="color-card" style="display:flex; align-items:center; justify-content:center; border-style:dashed;"><div style="font-size:20px; color:var(--text-soft);">+</div></div>
+          </div>
+
+          <div class="ds-header"><h2 style="font-size:15px;">Typography</h2></div>
+          <div class="type-row"><div class="type-sample h1">Heading / H1</div><div class="type-meta">Inter · 700 · 42/48</div></div>
+          <div class="type-row"><div class="type-sample h2">Heading / H2</div><div class="type-meta">Inter · 700 · 30/36</div></div>
+          <div class="type-row"><div class="type-sample h3">Heading / H3</div><div class="type-meta">Inter · 600 · 22/28</div></div>
+          <div class="type-row"><div class="type-sample body">Body / Base — the quick brown fox</div><div class="type-meta">Inter · 400 · 16/24</div></div>
+          <div class="type-row"><div class="type-sample small">Caption / Small — used for meta text</div><div class="type-meta">Inter · 400 · 12/16</div></div>
+
+          <div class="ds-header" style="margin-top:26px;"><h2 style="font-size:15px;">Spacing scale</h2></div>
+          <div style="display:flex; flex-direction:column; gap:2px; margin-bottom:26px;">
+            <div class="spacing-row"><div class="spacing-label">space/xs · 4px</div><div class="spacing-bar" style="width:4px;"></div></div>
+            <div class="spacing-row"><div class="spacing-label">space/sm · 8px</div><div class="spacing-bar" style="width:8px;"></div></div>
+            <div class="spacing-row"><div class="spacing-label">space/md · 16px</div><div class="spacing-bar" style="width:16px;"></div></div>
+            <div class="spacing-row"><div class="spacing-label">space/lg · 32px</div><div class="spacing-bar" style="width:32px;"></div></div>
+            <div class="spacing-row"><div class="spacing-label">space/xl · 64px</div><div class="spacing-bar" style="width:64px;"></div></div>
+          </div>
+
+          <div class="ds-header"><h2 style="font-size:15px;">Patterns &amp; Parts</h2><div class="btn-wf ghost">+ Save current selection</div></div>
+          <div class="label" style="margin-bottom:12px; line-height:1.5;">Same mechanism, any granularity — select a whole section or a single small piece (like one info card) and save it. Everything you save shows up here and in the builder's Add-block gallery under "My Patterns."</div>
+          <div class="sq-cat-row" style="margin:0 0 16px;">
+            <div class="sq-cat-pill active">All</div>
+            <div class="sq-cat-pill">Sections</div>
+            <div class="sq-cat-pill">Parts</div>
+          </div>
+          <div class="pattern-grid">
+            <div class="pattern-card">
+              <div class="pattern-thumb"><div class="mini"></div><div class="pattern-tag">Section</div></div>
+              <div class="pattern-name">Hero — centered <div class="icon-box"></div></div>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-thumb"><div class="mini"></div><div class="pattern-tag">Section</div></div>
+              <div class="pattern-name">Site footer <div class="icon-box"></div></div>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-thumb"><div class="mini"></div><div class="pattern-tag">Part</div></div>
+              <div class="pattern-name">Info card <div class="icon-box"></div></div>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-thumb"><div class="mini"></div><div class="pattern-tag">Part</div></div>
+              <div class="pattern-name">Team member card <div class="icon-box"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">
+    <b>Open questions (tracked in <code>claude/open-decisions.md</code>):</b> Are design-system tokens scoped per-site, or can a team share one token library across multiple sites (agency use case)? When a token like <i>primary/600</i> is edited here, should the builder canvas update live, or require a "sync/publish tokens" step? Should Patterns be split into "Global" (edits everywhere) vs. "Local copy" (detach), like Figma components vs. Webflow symbols?
+  </div>
+  <div class="note">
+    <b>Aligned to Flow 7:</b> "Save as Pattern" is now reachable directly from the builder's floating toolbar (✦ icon, Page Builder screen state 2), not only from this screen — saved patterns surface immediately in the Add-block gallery's "My Patterns" category.
+  </div>
+  <div class="note">
+    <b>New — Patterns &amp; Parts, and Button styles:</b> renamed this section "Patterns &amp; Parts" to make explicit that the same save mechanism handles both a full section (a hero, a footer) and a small reusable piece like a single info card or team-member card — one concept, one place, filterable by size rather than two separate systems to learn. Also added a <b>Button styles</b> section to the Design panel (Page Builder, state 10): fill, text color, corner radius, and size for primary/secondary buttons, edited once and applied everywhere — the same "one place to decide" pattern already used for colors and type. Per-button one-off overrides still live in that button's own Layer 2 properties, so nothing here blocks a one-time exception.
+  </div>
+</div>
+
+<!-- ================= SCREEN 5: PUBLISH & DOMAIN (Flow 8) ================= -->
+<div class="screen" id="screen-publish">
+  <div class="note"><b>Purpose:</b> covers Flow 8 end to end — publishing stays a persistent, always-visible action with a lightweight preview step, then a plain-language confirmation. Optional custom domain connection is scoped separately since it's not needed to get a site live.</div>
+
+  <div class="state-switcher" data-controls="pubShell" data-attr="state">
+    <div class="state-btn active" data-value="button"><span class="n">1</span>Publish (top bar)</div>
+    <div class="state-btn" data-value="preview"><span class="n">2</span>Preview step</div>
+    <div class="state-btn" data-value="confirm"><span class="n">3</span>Confirm publish</div>
+    <div class="state-btn" data-value="live"><span class="n">4</span>Live confirmation</div>
+    <div class="state-btn" data-value="domain"><span class="n">5</span>Connect custom domain</div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="frame" id="pubShell" data-state="button">
+
+      <div class="pub-shell" data-for="button">
+        <div class="pub-topbar-demo">
+          <div class="sq-crumb">Café Marrow <span class="car">▾</span></div>
+          <div class="flex gap-8 align-c">
+            <span class="sq-save-status">Saved 2s ago</span>
+            <div class="btn-wf ghost">Preview</div>
+            <div class="btn-wf primary" data-gotoswitch-local="preview">Publish</div>
+          </div>
+        </div>
+        <div class="label" style="max-width:480px; line-height:1.6;">"Publish" is pinned in the top bar on every screen of the editor — never buried in a menu. Clicking it starts the preview step, not an immediate live push.</div>
+      </div>
+
+      <div class="pub-shell" data-for="preview">
+        <div class="ns-step-label">Preview before publishing</div>
+        <div class="device-toggle" style="margin-bottom:16px;"><span class="active">Desktop</span><span>Mobile</span></div>
+        <div class="pub-preview-frame">
+          <div class="pub-preview-bar"><div class="label">cafemarrow.mybuilder.site</div><div class="icon-box"></div></div>
+          <div class="pub-preview-page">
+            <div class="lines" style="align-items:center; gap:10px;"><div class="l med" style="height:14px;"></div><div class="l short"></div></div>
+          </div>
+        </div>
+        <div class="flex gap-10"><div class="btn-wf ghost" data-gotoswitch-local="button">Keep editing</div><div class="btn-wf primary" data-gotoswitch-local="confirm">Looks good, publish →</div></div>
+      </div>
+
+      <div class="pub-shell" data-for="confirm">
+        <div class="ns-step-label">Confirm</div>
+        <h2 class="ns-title" style="margin-bottom:14px;">Publish Café Marrow?</h2>
+        <div class="label" style="max-width:420px; line-height:1.6; margin-bottom:24px;">This makes your latest changes visible to anyone with the link. You can keep editing and republish anytime.</div>
+        <div class="flex gap-10"><div class="btn-wf ghost" data-gotoswitch-local="preview">Back</div><div class="btn-wf primary" data-gotoswitch-local="live">Confirm &amp; publish</div></div>
+      </div>
+
+      <div class="pub-shell" data-for="live">
+        <div class="pub-check-icon">✓</div>
+        <h2 class="ns-title" style="margin-bottom:6px;">Café Marrow is live</h2>
+        <div class="label">No deployment jargon — just the link and a way to share it.</div>
+        <div class="pub-url-box">cafemarrow.mybuilder.site <span style="font-weight:400; color:var(--text-soft);">· Copy link</span></div>
+        <div class="flex gap-10"><div class="btn-wf ghost">Share</div><div class="btn-wf ghost" data-gotoswitch-local="domain">Connect a custom domain</div></div>
+      </div>
+
+      <div class="pub-shell" data-for="domain">
+        <div class="ns-step-label">Optional</div>
+        <h2 class="ns-title">Connect a custom domain</h2>
+        <div class="pub-domain-box">
+          <div class="ns-field"><span class="label">Your domain</span><input type="text" value="cafemarrow.com" readonly></div>
+          <div>
+            <div class="label" style="margin-bottom:6px;">Add these records at your domain provider — plain language, no DNS jargon assumed:</div>
+            <div class="pub-dns-row"><span>Type: A</span><span>Points to: 192.0.2.14</span></div>
+            <div class="pub-dns-row"><span>Type: CNAME</span><span>www → cafemarrow.mybuilder.site</span></div>
+          </div>
+          <div class="flex gap-8 align-c">
+            <div class="pub-status-pill">⏳ Pending verification</div>
+            <div class="label">usually live within a few hours</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Aligned to Flow 8:</b> the preview step (state 2) reuses the same Desktop/Mobile toggle as the editor, not a separate control — one responsive-preview pattern across the whole product, not two. Domain connection (state 5) is deliberately a step <i>away</i> from the base publish flow, since a working site at a free URL is the actual MVP goal — a custom domain is additive, never a blocker to going live.
+  </div>
+  <div class="note">
+    <b>Open question:</b> what happens if a user publishes mid-edit from another device/tab — do we need a conflict/lock state? Now logged as a concrete item in <code>claude/post-mvp-backlog.md</code> (Collaboration &amp; Permissions section).
+  </div>
+</div>
+
+<!-- ================= SCREEN 6: PLUGINS & THEMES (Flow 9) ================= -->
+<div class="screen" id="screen-plugins">
+  <div class="note"><b>Purpose:</b> covers Flow 9. Plugins/themes are uploaded HTML/CSS/JS bundles, not PHP. Two different risk surfaces get two different treatments: code that runs on the published site is unrestricted at upload (like a Squarespace/Webflow code embed), while anything running inside the authenticated editor/dashboard is sandboxed in an iframe with a declared permissions manifest, unconditionally, no MVP exception — see the security-model note below.</div>
+
+  <div class="state-switcher" data-controls="plShell" data-attr="state">
+    <div class="state-btn active" data-value="list"><span class="n">1</span>Installed list</div>
+    <div class="state-btn" data-value="upload"><span class="n">2</span>Upload &amp; validate</div>
+    <div class="state-btn" data-value="perms"><span class="n">3</span>Permission manifest</div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="frame" id="plShell" data-state="list">
+
+      <div class="pl-shell" data-for="list">
+        <div class="pl-header">
+          <h2 style="margin:0; font-size:17px;">Plugins &amp; Themes</h2>
+          <div class="btn-wf primary" data-gotoswitch-local="upload">Upload plugin</div>
+        </div>
+        <div class="pl-list-row">
+          <div class="pl-list-icon"></div>
+          <div class="pl-list-meta"><div style="font-weight:700; font-size:13px;">Booking Widget</div><div class="label">v1.2 · adds "Book a table" block · reads page content</div></div>
+          <div class="pl-toggle on"></div>
+          <div class="btn-wf ghost">Manage</div>
+        </div>
+        <div class="pl-list-row">
+          <div class="pl-list-icon"></div>
+          <div class="pl-list-meta"><div style="font-weight:700; font-size:13px;">Instagram Feed Embed</div><div class="label">v3.0 · visitor-facing widget · no editor access requested</div></div>
+          <div class="pl-toggle on"></div>
+          <div class="btn-wf ghost">Manage</div>
+        </div>
+        <div class="pl-list-row">
+          <div class="pl-list-icon"></div>
+          <div class="pl-list-meta"><div style="font-weight:700; font-size:13px;">Editorial Theme — Monochrome</div><div class="label">Theme · applied site-wide</div></div>
+          <div class="pl-toggle"></div>
+          <div class="btn-wf ghost">Manage</div>
+        </div>
+      </div>
+
+      <div class="pl-shell" data-for="upload">
+        <div class="pl-header"><h2 style="margin:0; font-size:17px;">Upload a plugin</h2><div class="btn-wf ghost" data-gotoswitch-local="list">Cancel</div></div>
+        <div class="pl-dropzone">Drop a <b>.zip</b> bundle here, or browse — HTML / CSS / JS + manifest.json</div>
+        <div style="max-width:420px; margin:0 auto;">
+          <div class="pl-scan-row"><div class="pl-scan-check">✓</div>Manifest schema valid</div>
+          <div class="pl-scan-row"><div class="pl-scan-check">✓</div>No obfuscated code or remote script injection detected</div>
+          <div class="pl-scan-row"><div class="pl-scan-check">✓</div>No requests to unknown domains</div>
+          <div class="flex gap-10" style="margin-top:16px;"><div class="btn-wf primary" data-gotoswitch-local="perms">Continue →</div></div>
+        </div>
+      </div>
+
+      <div class="pl-shell" data-for="perms">
+        <div class="pl-header"><h2 style="margin:0; font-size:17px;">Before you enable this</h2><div class="btn-wf ghost" data-gotoswitch-local="upload">Back</div></div>
+        <div class="pl-perm-card">
+          <div style="font-weight:700; font-size:13px; margin-bottom:4px;">Booking Widget wants to:</div>
+          <div class="pl-perm-row"><span>✓</span><span>Read and insert content on your pages (adds a "Book a table" block)</span></div>
+          <div class="pl-perm-row"><span>✓</span><span>Show a settings panel in your editor — runs sandboxed, no direct access to your account or other plugins</span></div>
+          <div class="pl-perm-row"><span>✕</span><span>No network access requested</span></div>
+          <div class="divider"></div>
+          <div class="label" style="line-height:1.6;">Runs in an isolated frame, like a browser extension's permission prompt — this is what it's asking for, nothing more.</div>
+          <div class="flex gap-10" style="margin-top:14px;"><div class="btn-wf ghost" data-gotoswitch-local="list">Not now</div><div class="btn-wf primary" data-gotoswitch-local="list">Allow &amp; enable</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Aligned to Flow 9 / security model (resolved 2026-08-17 in the flow doc):</b> visitor-facing code (widgets, embeds, animations) installs immediately after the automated scan shown in state 2 — no manual review queue, since that would recreate WordPress-style plugin-approval friction. Anything requesting editor/dashboard access always goes through the sandboxed permission prompt in state 3, with no exception, because that surface has session cookies and account-level API access — the same reasoning browser extension stores use.
+  </div>
+  <div class="note">
+    <b>Still open:</b> a public marketplace (installing plugins other users authored) is a different trust model — manual review, versioning, and code signing — and isn't needed for MVP's single-user/small-team scope. Tracked in <code>claude/open-decisions.md</code> since it affects how much the sandboxing architecture should anticipate now, even though the feature itself would ship later.
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // Generic state-switcher: each .state-switcher controls one target element's data-* attribute.
+  // Scoped per-switcher so Dashboard / New Site / Builder / Publish / Plugins panels don't collide.
+  function setSwitchState(switcher, value){
+    const targetId = switcher.dataset.controls;
+    const attr = switcher.dataset.attr || 'state';
+    const target = document.getElementById(targetId);
+    switcher.querySelectorAll('.state-btn').forEach(b=>b.classList.remove('active'));
+    const match = switcher.querySelector('.state-btn[data-value="'+value+'"]');
+    if(match) match.classList.add('active');
+    if(target) target.setAttribute('data-'+attr, value);
+  }
+  document.querySelectorAll('.state-switcher').forEach(switcher=>{
+    switcher.querySelectorAll('.state-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> setSwitchState(switcher, btn.dataset.value));
+    });
+  });
+
+  // Rail icons inside the Builder jump straight to their matching state, for a more natural demo
+  document.querySelectorAll('.sq-rail-btn[data-railstate]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const switcher = document.getElementById('builderSwitcher');
+      if(switcher) setSwitchState(switcher, btn.dataset.railstate);
+    });
+  });
+
+  // Within-screen shortcuts (e.g. New Site's option cards jumping straight to the next step)
+  document.querySelectorAll('[data-gotoswitch-local]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const switcher = el.closest('.screen').querySelector('.state-switcher');
+      if(switcher) setSwitchState(switcher, el.dataset.gotoswitchLocal);
+    });
+  });
+
+  // Dashboard / New Site cross-links: "data-gotoswitch" jumps to another tab and sets its state,
+  // mirroring how the flows chain screens together (e.g. Dashboard "+ New site" -> New Site: Choose starting point).
+  document.querySelectorAll('[data-gotoswitch]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const [tabTarget, stateValue] = el.dataset.gotoswitch.split(':');
+      const tabBtn = document.querySelector('.tab-btn[data-target="screen-'+tabTarget+'"]');
+      if(tabBtn) tabBtn.click();
+      const switcher = document.querySelector('#screen-'+tabTarget+' .state-switcher');
+      if(switcher && stateValue) setSwitchState(switcher, stateValue);
+    });
+  });
+</script>
+
+</body>
+</html>
